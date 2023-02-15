@@ -59,5 +59,5 @@ def get_enemies(asset):
     return result
 
 if __name__ == "__main__":
-    env = UnityPy.load("testassets/Main_01_MAIN_01_0101_0")
+    env = UnityPy.load("testassets/DOEBJI2NAV6TUU5ZYKILA3EPN3GX55TONMZFIMXVEWHADLRRA6EQ")
     print(get_enemies(env.assets[0]))
