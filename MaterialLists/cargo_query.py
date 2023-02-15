@@ -2,12 +2,21 @@
 Interface for Dragalia Lost Wiki's CargoQuery to fetch all quest drops from the DropRewards table.
 
 Please be kind to the wiki's servers and use the provided cargoquery.json instead of running this.
+
+Total expected entries: ~31,500 (63 requests)
 """
 
 from time import sleep
 import json
+import os
 import requests
-import MaterialLists.cargo_constants as cargo_constants
+from requests.adapters import HTTPAdapter
+import cargo_constants
+
+WORKING_DIR = os.path.dirname(os.path.realpath(__file__))
+
+s = requests.Session()
+s.mount(cargo_constants.DRAGALIA_WIKI_URL, HTTPAdapter(max_retries=3))
 
 
 def query(req_params):
@@ -21,11 +30,11 @@ def query(req_params):
         new_params.update({"offset": i})
 
         # Call API
-        result = requests.get(
-            cargo_constants.DRAGALIA_WIKI_URL,
+        result = s.get(
+            f"{cargo_constants.DRAGALIA_WIKI_URL}/api.php",
             params=new_params,
             headers=cargo_constants.HEADERS,
-            timeout=100
+            timeout=10
         ).json()
 
         if "error" in result:
@@ -42,7 +51,7 @@ def query(req_params):
                 break
 
         i += 500
-        print(f"Processed request {i}")
+        print(f"Progress: {i}")
         sleep(cargo_constants.REQUEST_SLEEP_SECS)
 
 
@@ -64,5 +73,5 @@ if __name__ == "__main__":
     for response in gen:
         cargoquery += [r["title"] for r in response]
 
-    with open("cargo_query.json", "w", encoding="utf-8") as f:
+    with open(os.path.join(WORKING_DIR, "cargo_query.json"), "w", encoding="utf-8") as f:
         json.dump(cargoquery, f)
