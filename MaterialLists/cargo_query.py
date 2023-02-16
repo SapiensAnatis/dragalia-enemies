@@ -8,7 +8,7 @@ Total expected entries: ~31,500 (63 requests)
 
 from time import sleep
 import json
-import os
+import os.path
 import requests
 from requests.adapters import HTTPAdapter
 import cargo_constants

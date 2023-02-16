@@ -2,7 +2,7 @@
 Parses the data produced by cargo_query.py into more usable JSON.
 """
 
-import os
+import os.path
 import json
 import materials
 import crests

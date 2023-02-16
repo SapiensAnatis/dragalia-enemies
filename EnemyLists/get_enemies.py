@@ -4,7 +4,10 @@
 Functions for getting a list of enemy_param ids from an asset stage.
 """
 
+import os.path
 import UnityPy # @ 1.9.26
+
+WORKING_DIR = os.path.dirname(os.path.realpath(__file__))
 
 def gen_gameobject_endnode(transform):
     """
@@ -59,5 +62,5 @@ def get_enemies(asset):
     return result
 
 if __name__ == "__main__":
-    env = UnityPy.load("testassets/DOEBJI2NAV6TUU5ZYKILA3EPN3GX55TONMZFIMXVEWHADLRRA6EQ")
+    env = UnityPy.load(os.path.join(WORKING_DIR, "testassets/DOEBJI2NAV6TUU5ZYKILA3EPN3GX55TONMZFIMXVEWHADLRRA6EQ"))
     print(get_enemies(env.assets[0]))
