@@ -62,7 +62,7 @@ if __name__ == "__main__":
         "format": "json",
         "limit": "max",
         "tables": "DropRewards, Quests",
-        "where": "DropRewards.DropType = 'Common'",
+        "where": "DropRewards.DropType = 'Common' and DropRewards.ExactDrop is null", # 'ExactDrop is null': Filter out revive bonus which is also classed as 'common'
         "fields": "Quests.Id=QuestId, DropRewards.ItemType, DropRewards.Item, DropRewards.DropType, DropRewards.MinDrop, DropRewards.MaxDrop, DropRewards.ExactDrop,",
         "join_on": "Quests._pageID = DropRewards._pageID"
     }
