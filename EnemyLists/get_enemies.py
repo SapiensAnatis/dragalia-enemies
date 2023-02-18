@@ -57,10 +57,13 @@ def get_enemies(asset):
     for obj in gen_difficulty(asset):
         read = obj.read()
         difficulty = read.name
-        result[difficulty] = list(gen_enemies_from_difficulty(read))
+        result[difficulty] = []
+        for enemy_pair in gen_enemies_from_difficulty(read):
+            result[difficulty] += [enemy_pair[0] for _ in range(enemy_pair[1])]
 
     return result
 
+
 if __name__ == "__main__":
-    env = UnityPy.load(os.path.join(WORKING_DIR, "testassets/DOEBJI2NAV6TUU5ZYKILA3EPN3GX55TONMZFIMXVEWHADLRRA6EQ"))
+    env = UnityPy.load(r"D:\DragaliaLostAssets\EU_locale\4V\4VCO4WBYDQZSU37TSCXDPIK5N43BB2ZXVPOOWXJYEXCB6DUZRTLA")
     print(get_enemies(env.assets[0]))
