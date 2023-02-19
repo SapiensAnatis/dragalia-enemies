@@ -1,7 +1,24 @@
+"""
+Produce a list of assets containing quest scene data.
+"""
+
+import os
+import json
+import get_enemies
+
+WORKING_DIR = os.path.dirname(os.path.realpath(__file__))
+ASSET_DIR = 
+
 def filter_quest(manifest_asset: dict) -> bool:
+    """
+    Determines whether an asset is a quest asset.
+    """
     return manifest_asset["name"].startswith("prefabs/ingame/quest")
 
 def get_quest_assets(json_path: str) -> list:
+    """
+    Gets a list of quest assets from a manifest path.
+    """
     print(json_path)
     with open(json_path, "r", encoding="utf-8") as f:
         manifest = json.loads(f.read())
@@ -11,21 +28,12 @@ def get_quest_assets(json_path: str) -> list:
 
         return filter(filter_quest, all_assets)
 
-if not os.path.exists("manifests"):
-    Repo.clone_from("https://github.com/DragaliaLostRevival/DragaliaManifests", "manifests")
 
-folders = sorted(os.listdir(os.path.join("manifests", "Android")), reverse=True)
-processed_quests = []
-hashes = []
-
-for folder in folders:
-    print(folder)
-
-    assets = get_quest_assets(os.path.join("manifests", "Android", folder, "assetbundle.manifest.json"))
+if __name__ == "__main__":
+    hashes = []
+    assets = get_quest_assets(os.path.join(WORKING_DIR, "DragaliaManifests/Android/20221002_y2XM6giU6zz56wCm/assetbundle.manifest.json"))
     for a in assets:
-        if a["name"] not in processed_quests:
-            processed_quests.append(a["name"])
-            hashes.append(a["hash"])
+        hashes.append(a["hash"])
 
-with open("output/asset_hashes.json", "w") as f:
-    json.dump(hashes, f)
+    for h in hashes:
+
