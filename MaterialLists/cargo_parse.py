@@ -17,6 +17,77 @@ TYPO_ADJUSTMENTS = {
     "An Unfreezing Flower (Axe's  Boon)": "An Unfreezing Flower (Axe's Boon)"
 }
 
+# Some void battles don't appear due to using outdated IDs
+# SELECT t._Text, q.* FROM QuestData q
+#   JOIN TextLabel t on q._QuestViewName = t._Id
+#   WHERE t._Text like '%Shroom Strike%'
+#   ORDER BY t._Text, q._Id
+QUEST_ALT_IDS = {
+    300090101: 301010102,  # Gust Shroom Strike
+    300150101: 301010103,  # Scalding Shroom Strike
+    300010101: 301010101,  # Wandering Shroom Strike,
+    300060101: 301020101,  # Blazing Ghost STrike
+    300250101: 301020104,  # Cerulean Ghost Strike
+    300190101: 301020103,  # Lambent Ghost Strike
+    300100101: 301020102,  # Violet Ghost Strike
+    300020101: 301030101,  # Frost Hermit Strike
+    300160101: 301030102,  # Twilight Hermit Strike
+    300110101: 301040103,  # Amber Golem Strike
+    300070101: 301040102,  # Obsidian Golem Strike
+    300030101: 301040101,  # Steel Golem Strike
+    300170101: 301050101,  # Catoblepas Anemos
+    300260101: 301050102,  # Catoblepas Fotia Strike,
+    300200101: 301060101,  # Eolian Phantom Strike
+    300270101: 301060102,  # Infernal Phantom Strike
+    300140101: 301070102,  # Greedy Manticore Strike
+    300230101: 301070104,  # Proud Manticore Strike
+    300050101: 301070101,  # Raging Manticore Strike
+    300210101: 301070103   # Smoldering Manticore Strike
+}
+
+DRAGON_AUG_MATERIALS = [119001001, 118001001]
+
+QUEST_ADDED_MATS = {
+    # The Consummate Creator
+    100260108: DRAGON_AUG_MATERIALS,
+    100260208: DRAGON_AUG_MATERIALS,
+    100260308: DRAGON_AUG_MATERIALS,
+    # Legend quests
+    # Volk
+    225010101: DRAGON_AUG_MATERIALS,
+    225011101: DRAGON_AUG_MATERIALS,
+    # Kai Yan
+    225020101: DRAGON_AUG_MATERIALS,
+    225021101: DRAGON_AUG_MATERIALS,
+    # Ciella
+    225030101: DRAGON_AUG_MATERIALS,
+    225031101: DRAGON_AUG_MATERIALS,
+    # Ayaha & Otoha
+    225040101: DRAGON_AUG_MATERIALS,
+    225041101: DRAGON_AUG_MATERIALS,
+    # Tartarus
+    225050101: DRAGON_AUG_MATERIALS,
+    225051101: DRAGON_AUG_MATERIALS,
+    # Jaldabaoth
+    232010101: DRAGON_AUG_MATERIALS,
+    232011101: DRAGON_AUG_MATERIALS,
+    # Iblis
+    232020101: DRAGON_AUG_MATERIALS,
+    232021101: DRAGON_AUG_MATERIALS,
+    # Surtr
+    232030101: DRAGON_AUG_MATERIALS,
+    232031101: DRAGON_AUG_MATERIALS,
+    # Asura
+    232040101: DRAGON_AUG_MATERIALS,
+    232041101: DRAGON_AUG_MATERIALS,
+    # Lilith
+    232050101: DRAGON_AUG_MATERIALS,
+    232051101: DRAGON_AUG_MATERIALS,
+    # Morsayati's Reckoning
+    226010101: DRAGON_AUG_MATERIALS,
+    226011101: DRAGON_AUG_MATERIALS,
+}
+
 WORKING_DIR = os.path.dirname(os.path.realpath(__file__))
 
 
@@ -42,6 +113,20 @@ def process_drop(drop):
         raise ValueError("Failed to process row", drop) from exc
 
 
+def add_to_result(result, drop, quest_id):
+    if quest_id not in result:
+        result[quest_id] = {
+            "_QuestId": quest_id,
+            "_Material": set(),
+            "_Wyrmprint": set(),
+            "_Gift": set(),
+            "_Consumable": set(),
+            "_Resource": set()
+        }
+
+    result[quest_id]["_" + drop["ItemType"]].update([drop["Item"]])
+
+
 def cargo_parse(query_row):
     """
     For a row in the drops table, substitute its name values with material/wyrmprint ids.
@@ -55,18 +140,18 @@ def cargo_parse(query_row):
             continue
 
         quest_id = int(drop["QuestId"])
+        add_to_result(result, drop, quest_id)
 
-        if quest_id not in result:
-            result[quest_id] = {
-                "_QuestId": quest_id,
-                "_Material": set(),
-                "_Wyrmprint": set(),
-                "_Gift": set(),
-                "_Consumable": set(),
-                "_Resource": set()
-            }
+        if (quest_id in QUEST_ALT_IDS):
+            print("Copying drops to alias", quest_id)
+            alt_id = QUEST_ALT_IDS[quest_id]
+            add_to_result(result, drop, alt_id)
 
-        result[quest_id]["_" + drop["ItemType"]].update([drop["Item"]])
+    # Insert additional drops
+    for quest_id, row in result.items():
+        if quest_id in QUEST_ADDED_MATS:
+            print("Adding extra mats to", quest_id)
+            row["_Material"].update(QUEST_ADDED_MATS[row["_QuestId"]])
 
     return result
 
