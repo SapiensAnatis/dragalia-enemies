@@ -59,16 +59,25 @@ def cargo_parse(query_row):
         if quest_id not in result:
             result[quest_id] = {
                 "_QuestId": quest_id,
-                "_Material": [],
-                "_Wyrmprint": [],
-                "_Gift": [],
-                "_Consumable": [],
-                "_Resource": []
+                "_Material": set(),
+                "_Wyrmprint": set(),
+                "_Gift": set(),
+                "_Consumable": set(),
+                "_Resource": set()
             }
 
-        result[quest_id]["_" + drop["ItemType"]] += [drop["Item"]]
+        result[quest_id]["_" + drop["ItemType"]].update([drop["Item"]])
 
     return result
+
+
+def set_default(obj):
+    """
+    Hack to serialize set objects.
+    """
+    if isinstance(obj, set):
+        return sorted(obj)
+    raise TypeError
 
 
 if __name__ == "__main__":
@@ -79,4 +88,4 @@ if __name__ == "__main__":
     processed = cargo_parse(query)
 
     with open(os.path.join(WORKING_DIR, "cargo_query_proc.json"), "w", encoding="utf-8") as f:
-        json.dump(list(processed.values()), f)
+        json.dump(list(processed.values()), f, default=set_default)
