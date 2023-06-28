@@ -46,6 +46,14 @@ QUEST_ALT_IDS = {
 }
 
 DRAGON_AUG_MATERIALS = [119001001, 118001001]
+MANACASTER_TABLET_MATERIALS = [202005091, 223010209]
+LAMBENT_GHOST_MATERIALS = [201014001,
+                           201014002,
+                           202003001,
+                           202003002,
+                           204006001,
+                           204019001,
+                           204019002]
 
 QUEST_ADDED_MATS = {
     # The Consummate Creator
@@ -86,7 +94,13 @@ QUEST_ADDED_MATS = {
     # Morsayati's Reckoning
     226010101: DRAGON_AUG_MATERIALS,
     226011101: DRAGON_AUG_MATERIALS,
-}
+    # Manacaster tablets
+    # Battle in the Dornith Mountains Standard
+    211040102: MANACASTER_TABLET_MATERIALS,
+    # Battle at the Wartarch Ruins Standard
+    211050102: MANACASTER_TABLET_MATERIALS,
+    # Lambent Ghost Strike
+    301020103: LAMBENT_GHOST_MATERIALS}
 
 WORKING_DIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -148,10 +162,20 @@ def cargo_parse(query_row):
             add_to_result(result, drop, alt_id)
 
     # Insert additional drops
-    for quest_id, row in result.items():
-        if quest_id in QUEST_ADDED_MATS:
-            print("Adding extra mats to", quest_id)
-            row["_Material"].update(QUEST_ADDED_MATS[row["_QuestId"]])
+    for quest_id, mats in QUEST_ADDED_MATS.items():
+        print("Adding extra mats to", quest_id)
+
+        if quest_id not in result:
+            result[quest_id] = {
+                "_QuestId": quest_id,
+                "_Material": set(),
+                "_Wyrmprint": set(),
+                "_Gift": set(),
+                "_Consumable": set(),
+                "_Resource": set()
+            }
+
+        result[quest_id]["_Material"].update(mats)
 
     return result
 
