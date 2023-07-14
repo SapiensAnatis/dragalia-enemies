@@ -4,16 +4,25 @@ Produce a list of assets containing quest scene data.
 
 import os
 import json
-import get_enemies
+from get_enemies import get_enemies_from_file
 
 WORKING_DIR = os.path.dirname(os.path.realpath(__file__))
-ASSET_DIR = 
+ASSET_DIR = r"D:\DragaliaLost Assets\EU_locale"
+
+
+def get_assetpath(hash: str) -> str:
+    """
+    Get an asset's path from its hash.
+    """
+    return os.path.join(ASSET_DIR, hash[:2], hash)
+
 
 def filter_quest(manifest_asset: dict) -> bool:
     """
     Determines whether an asset is a quest asset.
     """
     return manifest_asset["name"].startswith("prefabs/ingame/quest")
+
 
 def get_quest_assets(json_path: str) -> list:
     """
@@ -31,9 +40,18 @@ def get_quest_assets(json_path: str) -> list:
 
 if __name__ == "__main__":
     hashes = []
-    assets = get_quest_assets(os.path.join(WORKING_DIR, "DragaliaManifests/Android/20221002_y2XM6giU6zz56wCm/assetbundle.manifest.json"))
+    assets = get_quest_assets(os.path.join(
+        WORKING_DIR, "DragaliaManifests/Android/20221002_y2XM6giU6zz56wCm/assetbundle.manifest.json"))
+
+    result = []
     for a in assets:
-        hashes.append(a["hash"])
+        hash_name = a["hash"]
+        path = get_assetpath(a["hash"])
+        if not os.path.exists(get_assetpath(hash_name)):
+            print(f"Could not find asset for {path}")
+            continue
 
-    for h in hashes:
+        result.append(get_enemies_from_file(path))
 
+    with open("output.json", "w", encoding="utf8") as f:
+        json.dump(result, f)

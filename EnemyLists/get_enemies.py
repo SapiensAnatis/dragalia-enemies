@@ -8,6 +8,16 @@ import os.path
 import UnityPy  # @ 1.9.26
 
 WORKING_DIR = os.path.dirname(os.path.realpath(__file__))
+DIFFICULTY_VARIATIONTYPE = {
+    "Normal": 1,
+    "Hard": 2,
+    "VeryHard": 3,
+    "Extreme": 4,
+    "Hell": 5,
+    "Variation6": 6,
+    "Variation7": 7,
+    "Variation8": 8,
+}
 
 
 def gen_children(gameobject):
@@ -75,10 +85,11 @@ def get_enemies(asset):
     result["_Enemies"] = {}
     for obj in gen_difficulty(asset):
         read = obj.read()
-        difficulty = read.name
+        difficulty = DIFFICULTY_VARIATIONTYPE[read.name]
         result["_Enemies"][difficulty] = []
         for enemy_pair in gen_enemies_from_difficulty(read):
-            result["_Enemies"][difficulty] += [enemy_pair[0] for _ in range(enemy_pair[1])]
+            result["_Enemies"][difficulty] += [enemy_pair[0]
+                                               for _ in range(enemy_pair[1])]
 
     return result
 
@@ -98,4 +109,5 @@ def get_enemies_from_file(asset_filepath):
 
 if __name__ == "__main__":
     print(get_enemies_from_file(
-        r"D:\DragaliaLostAssets\EU_locale\DO\DOEBJI2NAV6TUU5ZYKILA3EPN3GX55TONMZFIMXVEWHADLRRA6EQ"))
+        # r"D:\DragaliaLost Assets\EU_locale\OY\OYANUNWK3SRJWTFTES35I5VOH4WKXQQP3FG6DBUUHCO6ID7GC65Q")) # Golem tough
+        r"D:\DragaliaLost Assets\EU_locale\CY\CYCS4KMK255JKD6MWOLTBTO6CQCUBL244UMNKTRQXHHC52UYWADQ"))
