@@ -6,6 +6,7 @@ import os.path
 import json
 import materials
 import crests
+import math
 
 IGNORED_ITEM_TYPES = ["Weapon"]
 
@@ -55,59 +56,13 @@ LAMBENT_GHOST_MATERIALS = [201014001,
                            204019001,
                            204019002]
 
-QUEST_ADDED_MATS = {
-    # The Consummate Creator
-    100260108: DRAGON_AUG_MATERIALS,
-    100260208: DRAGON_AUG_MATERIALS,
-    100260308: DRAGON_AUG_MATERIALS,
-    # Legend quests
-    # Volk
-    225010101: DRAGON_AUG_MATERIALS,
-    225011101: DRAGON_AUG_MATERIALS,
-    # Kai Yan
-    225020101: DRAGON_AUG_MATERIALS,
-    225021101: DRAGON_AUG_MATERIALS,
-    # Ciella
-    225030101: DRAGON_AUG_MATERIALS,
-    225031101: DRAGON_AUG_MATERIALS,
-    # Ayaha & Otoha
-    225040101: DRAGON_AUG_MATERIALS,
-    225041101: DRAGON_AUG_MATERIALS,
-    # Tartarus
-    225050101: DRAGON_AUG_MATERIALS,
-    225051101: DRAGON_AUG_MATERIALS,
-    # Jaldabaoth
-    232010101: DRAGON_AUG_MATERIALS,
-    232011101: DRAGON_AUG_MATERIALS,
-    # Iblis
-    232020101: DRAGON_AUG_MATERIALS,
-    232021101: DRAGON_AUG_MATERIALS,
-    # Surtr
-    232030101: DRAGON_AUG_MATERIALS,
-    232031101: DRAGON_AUG_MATERIALS,
-    # Asura
-    232040101: DRAGON_AUG_MATERIALS,
-    232041101: DRAGON_AUG_MATERIALS,
-    # Lilith
-    232050101: DRAGON_AUG_MATERIALS,
-    232051101: DRAGON_AUG_MATERIALS,
-    # Morsayati's Reckoning
-    226010101: DRAGON_AUG_MATERIALS,
-    226011101: DRAGON_AUG_MATERIALS,
-    # Manacaster tablets
-    # Battle in the Dornith Mountains Standard
-    211040102: MANACASTER_TABLET_MATERIALS,
-    # Battle at the Wartarch Ruins Standard
-    211050102: MANACASTER_TABLET_MATERIALS,
-    # Lambent Ghost Strike
-    301020103: LAMBENT_GHOST_MATERIALS}
 
 WORKING_DIR = os.path.dirname(os.path.realpath(__file__))
 
 
 def process_drop(drop):
     """
-    Substitute a drop with its entity ID in place of its name.
+    Substitute a drop with its entity ID in place of its name, and add its quantity
     """
 
     drop["Item"] = TYPO_ADJUSTMENTS.get(drop["Item"], drop["Item"])
@@ -131,14 +86,18 @@ def add_to_result(result, drop, quest_id):
     if quest_id not in result:
         result[quest_id] = {
             "_QuestId": quest_id,
-            "_Material": set(),
-            "_Wyrmprint": set(),
-            "_Gift": set(),
-            "_Consumable": set(),
-            "_Resource": set()
+            "_Bonuses": [],
         }
 
-    result[quest_id]["_" + drop["ItemType"]].update([drop["Item"]])
+    if drop["ItemType"] == "Resource":
+        drop["ItemType"] = drop["Item"]
+        drop["Item"] = 0
+
+    result[quest_id]["_Bonuses"].append({
+        "_EntityType": drop["ItemType"],
+        "_Id": drop["Item"],
+        "_Quantity": drop["Quantity"]
+    })
 
 
 def cargo_parse(query_row):
@@ -153,6 +112,15 @@ def cargo_parse(query_row):
         if drop is None:
             continue
 
+        if drop["ExactDrop"]:
+            drop["Quantity"] = int(drop["ExactDrop"])
+        elif drop["MaxDrop"] and drop["MinDrop"]:
+            drop["Quantity"] = math.ceil((int(drop["MaxDrop"]) +
+                                          int(drop["MinDrop"])) / 2)
+        else:
+            print(f"Warning: could not derive quantity for {drop}")
+            drop["Quantity"] = 10 if drop["ItemType"] == "Material" else 10000
+
         quest_id = int(drop["QuestId"])
         add_to_result(result, drop, quest_id)
 
@@ -160,22 +128,6 @@ def cargo_parse(query_row):
             print("Copying drops to alias", quest_id)
             alt_id = QUEST_ALT_IDS[quest_id]
             add_to_result(result, drop, alt_id)
-
-    # Insert additional drops
-    for quest_id, mats in QUEST_ADDED_MATS.items():
-        print("Adding extra mats to", quest_id)
-
-        if quest_id not in result:
-            result[quest_id] = {
-                "_QuestId": quest_id,
-                "_Material": set(),
-                "_Wyrmprint": set(),
-                "_Gift": set(),
-                "_Consumable": set(),
-                "_Resource": set()
-            }
-
-        result[quest_id]["_Material"].update(mats)
 
     return result
 

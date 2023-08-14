@@ -62,7 +62,7 @@ if __name__ == "__main__":
         "format": "json",
         "limit": "max",
         "tables": "DropRewards, Quests",
-        "where": "DropRewards.DropType = 'Common' and Quests.Id is not null",
+        "where": "(DropRewards.DropType = 'Daily' or DropRewards.DropType = 'Weekly') and Quests.Id is not null",
         "fields": "Quests.Id=QuestId, DropRewards.ItemType, DropRewards.Item, DropRewards.DropType, DropRewards.MinDrop, DropRewards.MaxDrop, DropRewards.ExactDrop,",
         "join_on": "Quests._pageID = DropRewards._pageID"
     }
