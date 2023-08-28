@@ -118,7 +118,7 @@ class Entity:
     """
     _Id: int
     _EntityType: str
-    _Quantity: int = 0
+    _Quantity: int = None
 
     def __hash__(self) -> int:
         return hash(f"{self._Id}{self._EntityType}")
@@ -153,6 +153,9 @@ class Entity:
 
         if drop.get("ExactDrop", None):
             self._Quantity = int(drop["ExactDrop"])
+
+        if drop_type == "Wyrmprint" and not self._Quantity:
+            self._Quantity = 0.1
 
 
 def process_drop(drop):
@@ -246,4 +249,4 @@ if __name__ == "__main__":
     processed = cargo_parse(query)
 
     with open(os.path.join(WORKING_DIR, "cargo_query_proc.json"), "w", encoding="utf-8") as f:
-        json.dump(processed, f, default=set_default)
+        json.dump(processed, f, default=set_default, indent=True)
