@@ -6,6 +6,7 @@ import os.path
 import json
 import materials
 import crests
+from dataclasses import dataclass
 
 IGNORED_ITEM_TYPES = ["Weapon"]
 
@@ -102,7 +103,56 @@ QUEST_ADDED_MATS = {
     # Lambent Ghost Strike
     301020103: LAMBENT_GHOST_MATERIALS}
 
+GIFT_LOOKUP = {
+    "Dragonyule Cake": 30002,
+    "Four-Leaf Clover": 30001
+}
+
 WORKING_DIR = os.path.dirname(os.path.realpath(__file__))
+
+
+@dataclass
+class Entity:
+    """
+    Class for entities to be dropped.
+    """
+    _Id: int
+    _EntityType: str
+    _Quantity: int = 0
+
+    def __hash__(self) -> int:
+        return hash(f"{self._Id}{self._EntityType}")
+
+    def __init__(self, drop: any):
+        drop_type = drop["ItemType"]
+        drop_value = drop["Item"]
+
+        if drop_type == "Material" or drop_type == "Wyrmprint":
+            self._Id = drop_value
+            self._EntityType = drop_type
+        elif drop_type == "Resource":
+            self._Id = 0
+            self._EntityType = drop_value
+        elif drop_type == "Gift":
+            self._Id = GIFT_LOOKUP[drop_value]
+            self._EntityType = "DragonGift"
+        elif drop_type == "Consumable":
+            match drop_value:
+                case "Summon Voucher":
+                    self._Id = 10101  # Single summon voucher
+                    self._EntityType = "SummonTicket"
+                case "Exquisite Honey":
+                    self._Id = 100603
+                    self._EntityType = "Item"
+                case "Blessed Ethon Ashes":
+                    self._Id = 100702
+                    self._EntityType = "Item"
+
+        else:
+            raise ValueError(f"Unhandled drop type: {drop_type}")
+
+        if drop.get("ExactDrop", None):
+            self._Quantity = int(drop["ExactDrop"])
 
 
 def process_drop(drop):
@@ -127,18 +177,15 @@ def process_drop(drop):
         raise ValueError("Failed to process row", drop) from exc
 
 
-def add_to_result(result, drop, quest_id):
+def add_to_result(result: set, drop, quest_id):
     if quest_id not in result:
         result[quest_id] = {
-            "_QuestId": quest_id,
-            "_Material": set(),
-            "_Wyrmprint": set(),
-            "_Gift": set(),
-            "_Consumable": set(),
-            "_Resource": set()
+            "_Drops": set()
         }
 
-    result[quest_id]["_" + drop["ItemType"]].update([drop["Item"]])
+    entity = Entity(drop)
+
+    result[quest_id]["_Drops"].add(entity)
 
 
 def cargo_parse(query_row):
@@ -167,15 +214,15 @@ def cargo_parse(query_row):
 
         if quest_id not in result:
             result[quest_id] = {
-                "_QuestId": quest_id,
-                "_Material": set(),
-                "_Wyrmprint": set(),
-                "_Gift": set(),
-                "_Consumable": set(),
-                "_Resource": set()
+                "_Drops": set()
             }
 
-        result[quest_id]["_Material"].update(mats)
+        entities = [Entity({
+            "ItemType": "Material",
+            "Item": m
+        }) for m in mats]
+
+        result[quest_id]["_Drops"].update(entities)
 
     return result
 
@@ -185,8 +232,10 @@ def set_default(obj):
     Hack to serialize set objects.
     """
     if isinstance(obj, set):
-        return sorted(obj)
-    raise TypeError
+        return list(obj)
+
+    if isinstance(obj, Entity):
+        return obj.__dict__
 
 
 if __name__ == "__main__":
@@ -197,4 +246,4 @@ if __name__ == "__main__":
     processed = cargo_parse(query)
 
     with open(os.path.join(WORKING_DIR, "cargo_query_proc.json"), "w", encoding="utf-8") as f:
-        json.dump(list(processed.values()), f, default=set_default)
+        json.dump(processed, f, default=set_default)
