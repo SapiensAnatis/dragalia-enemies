@@ -43,7 +43,16 @@ QUEST_ALT_IDS = {
     300140101: 301070102,  # Greedy Manticore Strike
     300230101: 301070104,  # Proud Manticore Strike
     300050101: 301070101,  # Raging Manticore Strike
-    300210101: 301070103   # Smoldering Manticore Strike
+    300210101: 301070103,  # Smoldering Manticore Strike
+    208120101: 208310101,  # Seeking the Unknown
+    208120102: 208310102,  # Beyond Darkness
+    208060201: 208310301,  # The Crawling Nightmare: Beginner
+    208060202: 208310302,  # The Crawling Nightmare: Standard
+    208060203: 208310303,  # The Crawling Nightmare: Expert
+    208120401: 208310401,  # It Prowls the Endless Dark...
+    208120501: 208310501,  # Chaos's Calling: Expert
+    208120502: 208310502,  # Chaos's Calling: Master
+    208120601: 208310601,  # Chaos's Calling: Nightmare
 }
 
 DRAGON_AUG_MATERIALS = [119001001, 118001001]
@@ -118,6 +127,7 @@ class Entity:
     """
     _Id: int
     _EntityType: str
+    _Comment: str
     _Quantity: int = None
 
     def __hash__(self) -> int:
@@ -132,7 +142,10 @@ class Entity:
             self._EntityType = drop_type
         elif drop_type == "Resource":
             self._Id = 0
-            self._EntityType = drop_value
+            if drop_value == "Eldwater":
+                self._EntityType = "Dew"
+            else:
+                self._EntityType = drop_value
         elif drop_type == "Gift":
             self._Id = GIFT_LOOKUP[drop_value]
             self._EntityType = "DragonGift"
@@ -154,8 +167,25 @@ class Entity:
         if drop.get("ExactDrop", None):
             self._Quantity = int(drop["ExactDrop"])
 
-        if drop_type == "Wyrmprint" and not self._Quantity:
+        self._Comment = drop.get("Comment", None)
+
+        if drop_type == "Wyrmprint":
             self._Quantity = 0.1
+
+        if drop_type == "Material":
+            self._Quantity = 50
+
+        if (self._Comment and "Boon" in self._Comment):
+            self._Quantity = 5
+
+        if drop_type == "Gift":
+            self._Quantity = 1
+
+        if drop_type == "Consumable":
+            self._Quantity = 5
+
+        if self._Quantity is None:
+            raise Exception("Missing quantity")
 
 
 def process_drop(drop):
@@ -167,9 +197,15 @@ def process_drop(drop):
 
     try:
         if drop["ItemType"] == "Material":
+            if drop["Item"] not in materials.name_map:
+                print("Failed to find material", drop["Item"])
+                return None
+
+            drop["Comment"] = drop["Item"]
             drop["Item"] = materials.name_map[drop["Item"]]
             return drop
         elif drop["ItemType"] == "Wyrmprint":
+            drop["Comment"] = drop["Item"]
             drop["Item"] = crests.name_map[drop["Item"]]
             return drop
         elif drop["ItemType"] in IGNORED_ITEM_TYPES:
@@ -181,8 +217,9 @@ def process_drop(drop):
 
 
 def add_to_result(result: set, drop, quest_id):
-    if quest_id not in result:
+    if quest_id not in result and quest_id is not None:
         result[quest_id] = {
+            "_QuestId": quest_id,
             "_Drops": set()
         }
 
@@ -217,17 +254,22 @@ def cargo_parse(query_row):
 
         if quest_id not in result:
             result[quest_id] = {
+                "_QuestId": quest_id,
                 "_Drops": set()
             }
 
         entities = [Entity({
             "ItemType": "Material",
-            "Item": m
+            "Item": m,
         }) for m in mats]
 
         result[quest_id]["_Drops"].update(entities)
 
-    return result
+    for _, quest in result.items():
+        quest["_Drops"] = sorted(
+            quest["_Drops"], key=lambda e: (e._EntityType, e._Id))
+
+    return sorted(result.values(), key=lambda quest: quest["_QuestId"])
 
 
 def set_default(obj):
