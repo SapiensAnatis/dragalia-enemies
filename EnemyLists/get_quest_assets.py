@@ -35,7 +35,7 @@ def get_quest_assets(json_path: str) -> list:
         for cat in manifest["categories"]:
             all_assets += cat["assets"]
 
-        return filter(filter_quest, all_assets)
+        return list(filter(filter_quest, all_assets))
 
 
 if __name__ == "__main__":
@@ -43,7 +43,10 @@ if __name__ == "__main__":
     assets = get_quest_assets(os.path.join(
         WORKING_DIR, "DragaliaManifests/Android/20221002_y2XM6giU6zz56wCm/assetbundle.manifest.json"))
 
-    result = []
+    assets += get_quest_assets(os.path.join(
+        WORKING_DIR, "DragaliaManifests/Android/20211129_h6lObp9eiVabAdyO/assetbundle.manifest.json"))
+
+    result = {}
     for a in assets:
         hash_name = a["hash"]
         path = get_assetpath(a["hash"])
@@ -51,7 +54,11 @@ if __name__ == "__main__":
             print(f"Could not find asset for {path}")
             continue
 
-        result.append(get_enemies_from_file(path))
+        enemies = get_enemies_from_file(path)
+        areaname = enemies["_AreaName"]
+        if areaname not in result:
+            result[areaname] = enemies
 
+    result_values = list(result.values())
     with open("output.json", "w", encoding="utf8") as f:
-        json.dump(result, f)
+        json.dump(result_values, f, indent=4)
