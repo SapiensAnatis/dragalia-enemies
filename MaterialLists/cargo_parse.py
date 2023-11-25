@@ -55,15 +55,15 @@ QUEST_ALT_IDS = {
     208120601: 208310601,  # Chaos's Calling: Nightmare
 }
 
-DRAGON_AUG_MATERIALS = [119001001, 118001001]
-MANACASTER_TABLET_MATERIALS = [202005091]
-LAMBENT_GHOST_MATERIALS = [201014001,
-                           201014002,
-                           202003001,
-                           202003002,
-                           204006001,
-                           204019001,
-                           204019002]
+DRAGON_AUG_MATERIALS = ["Fortifying Dragonscale", "Amplifying Dragonscale"]
+MANACASTER_TABLET_MATERIALS = ["Manacaster Tablet"]
+LAMBENT_GHOST_MATERIALS = ["Void Leaf",
+                           "Void Seed",
+                           "Bat's Wing",
+                           "Ancient Bird's Feather",
+                           "Old Cloth",
+                           "Floating Yellow Cloth",
+                           "Unearthly Lantern"]
 
 QUEST_ADDED_MATS = {
     # The Consummate Creator
@@ -160,6 +160,7 @@ class Entity:
                 case "Blessed Ethon Ashes":
                     self._Id = 100702
                     self._EntityType = "Item"
+            self._Comment = drop_value
 
         else:
             raise ValueError(f"Unhandled drop type: {drop_type}")
@@ -208,6 +209,15 @@ def process_drop(drop):
             drop["Comment"] = drop["Item"]
             drop["Item"] = crests.name_map[drop["Item"]]
             return drop
+        elif drop["ItemType"] == "Consumable":
+            drop["Comment"] = drop["Item"]
+            return drop
+        elif drop["ItemType"] == "Resource":
+            drop["Comment"] = drop["Item"]
+            return drop
+        elif drop["ItemType"] == "Gift":
+            drop["Comment"] = drop["Item"]
+            return drop
         elif drop["ItemType"] in IGNORED_ITEM_TYPES:
             return None
         else:
@@ -220,7 +230,10 @@ def add_to_result(result: set, drop, quest_id):
     if quest_id not in result and quest_id is not None:
         result[quest_id] = {
             "_QuestId": quest_id,
-            "_Drops": set()
+            "_Modified": False,
+            "_Rupies": 250_000,
+            "_Mana": 10_000,
+            "_Drops": set(),
         }
 
     entity = Entity(drop)
@@ -255,12 +268,16 @@ def cargo_parse(query_row):
         if quest_id not in result:
             result[quest_id] = {
                 "_QuestId": quest_id,
+                "_Modified": False,
+                "_Rupies": 250_000,
+                "_Mana": 10_000,
                 "_Drops": set()
             }
 
         entities = [Entity({
             "ItemType": "Material",
-            "Item": m,
+            "Item": materials.name_map[m],
+            "Comment": m
         }) for m in mats]
 
         result[quest_id]["_Drops"].update(entities)
