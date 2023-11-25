@@ -6,7 +6,7 @@ JOIN TextLabel ON MaterialData._Name = TextLabel._Id
 WHERE _QuestEventId = 0
 """
 
-name_map = {
+name_map: dict[str, int] = {
     "Bronze Crystal": 101001001,
     "Silver Crystal": 101001002,
     "Gold Crystal": 101001003,
