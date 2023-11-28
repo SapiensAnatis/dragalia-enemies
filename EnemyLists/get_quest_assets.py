@@ -47,8 +47,16 @@ if __name__ == "__main__":
         WORKING_DIR, "DragaliaManifests/Android/20211129_h6lObp9eiVabAdyO/assetbundle.manifest.json"))
 
     result = {}
-    for a in assets:
+    complete_hashes = set()
+
+    for i, a in enumerate(assets):
+        print(f"{i} / {len(assets)}")
+
         hash_name = a["hash"]
+        if (hash_name in complete_hashes):
+            print("Skipping")
+            continue
+
         path = get_assetpath(a["hash"])
         if not os.path.exists(get_assetpath(hash_name)):
             print(f"Could not find asset for {path}")
@@ -58,6 +66,8 @@ if __name__ == "__main__":
         areaname = enemies["_AreaName"]
         if areaname not in result:
             result[areaname] = enemies
+
+        complete_hashes.add(hash_name)
 
     result_values = list(result.values())
     with open("output.json", "w", encoding="utf8") as f:
