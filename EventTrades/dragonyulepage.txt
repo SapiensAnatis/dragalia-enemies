@@ -1,0 +1,380 @@
+{{Event
+|Name=One Starry Dragonyule
+|NameJP=愛は星降るように
+|NameSC=爱如流星
+|NameTC=愛如繁星傾注
+|Date=November 2021
+|Type=Invasion
+|Description=Ilia and Mordecai were visiting the town where Dragonyule started on their hunt for the Scrolls of Perdition. But plans changed when they came across a mother looking for her lost child. Little do they know, Ramiel and ol' Papa Bear here were also in town digging around for the scrolls. But then we ran into this kid on the run... Will a guiding star bring us all together on this Dragonyule Eve? And what of the Scrolls of Perdition? Hey Ilia, do you have something to add?
+|EnemyElement1=Wind
+|EnemyAffliction=
+|EnemyTraits={{ColorText|Red|Resistant}} to {{InlineIcon|Icon Weapon|Sword}}{{InlineIcon|Icon Weapon|Blade}}{{InlineIcon|Icon Weapon|Dagger}}{{InlineIcon|Icon Weapon|Axe}}{{InlineIcon|Icon Weapon|Lance}} close-ranged attacks ({{ColorText|Red|-90% damage}}).
+|ExclusiveWyrmprint=Saint Starfall's Circus, A Gift from an Angel, A Dragonyule for Ilia
+|ExclusiveWeapon=Wise Defender, Zealous Armament
+|ThemeSong=Arikitari - WON
+|StartDate=2021/11/29 06:00:00 UTC
+|EndDate=2021/12/09 05:59:59 UTC
+
+|StoryQuests=
+<div style="font-size:1em;width:100%">
+{{Wikitable| class="wikitable darkred" style="width:100%"
+! !! Quest !! Notes
+|-
+| Prologue || [[The Goddess's Tricks]] ||
+|-
+| Episode 1 || [[What Makes a Family]] ||
+|-
+| Invasion 1 || [[Repelling the Frosty Fiends#Standard|Repelling the Frosty Fiends: Standard]] ||
+|-
+| Episode 2 || [[The Means to Protect]] ||
+|-
+| Episode 3 || [[Confrontation (One Starry Dragonyule)|Confrontation]] ||
+|-
+| Episode 4 || [[Promises Made]] ||
+|-
+| Quest 1 || [[To Fulfill a Promise]] ||
+|-
+| Epilogue || [[A Dragonyule Miracle]] ||
+|-
+}}
+</div>
+
+|Battles=
+<div style="font-size:1em;width:100%">
+{{Wikitable| class="wikitable darkred" style="width:100%"
+! !! Quest !! Notes
+|-
+| Invasion 1 || [[Repelling the Frosty Fiends#Standard (Solo)|Repelling the Frosty Fiends: Standard (Solo)]] ||
+|-
+| Invasion 2 || [[Repelling the Frosty Fiends#Standard (Quick Play Co-op)|Repelling the Frosty Fiends: Standard (Quick Play Co-op)]] ||
+|-
+| Invasion 3 || [[Repelling the Frosty Fiends#Expert (Solo)|Repelling the Frosty Fiends: Expert (Solo)]] ||
+|-
+| Invasion 4 || [[Repelling the Frosty Fiends#Expert (Quick Play Co-op)|Repelling the Frosty Fiends: Expert (Quick Play Co-op)]] ||
+|-
+| Invasion 5 || [[Repelling the Frosty Fiends#Master (Solo)|Repelling the Frosty Fiends: Master (Solo)]] || This difficulty is available from  December 2, 2021
+|-
+| Invasion 6 || [[Repelling the Frosty Fiends#Master (Co-op)|Repelling the Frosty Fiends: Master (Co-op)]] ||
+|-
+| Bonus Reward || [[A Dragonyule Miracle (Quest)]] ||
+|-
+| Trial 1 || [[The Angelic Herald#Standard (Solo)|The Angelic Herald: Standard (Solo)]] ||
+|-
+| Trial 2 || [[The Angelic Herald#Standard (Co-op)|The Angelic Herald: Standard (Co-op)]] ||
+|-
+| Trial 3 || [[The Angelic Herald#Expert (Solo)|The Angelic Herald: Expert (Solo)]] ||
+|-
+| Trial 4 || [[The Angelic Herald#Expert (Co-op)|The Angelic Herald: Expert (Co-op)]] ||
+|-
+| Trial 5 || [[The Angelic Herald#Master (Solo)|The Angelic Herald: Master (Solo)]] || This difficulty is available from December 2, 2021
+|-
+| Trial 6 || [[The Angelic Herald#Master (Co-op)|The Angelic Herald: Master (Co-op)]] || 
+}}
+</div>
+
+|BattleQuestName1=Repelling the Frosty Fiends
+|BattleQuestName2=A Dragonyule Miracle
+|BattleQuestName3=The Angelic Herald
+|BattleQuestName4=
+
+|TreasureTradeShop=
+<div style="width:100%;">
+[[File:One Starry Dragonyule Banner 01.png]]
+<div style="max-height: 500px; overflow: auto;">
+{{Wikitable| class="wikitable darkpurple" style="width:100%"
+|-
+! Item !! Limit !! Required to Buy !! Availability
+|-
+| {{Icon|Wyrmprint|Saint Starfall's Circus|size=32px|text=1}} x1 || 1 || {{Guardian's Shield-}} x100, {{Guardian's Sword-}} x50 || Start
+|-
+| {{Icon|Material|Twinkling Sand|size=32px|text=1}} x1 || 1 || {{Guardian's Shield-}} x50, {{Guardian's Sword-}} x25 || Start
+|-
+| {{Icon|Material|Twinkling Sand|size=32px|text=1}} x1|| 1 || {{Guardian's Shield-}} x100, {{Guardian's Sword-}} x50 || Start
+|-
+| {{Icon|Material|Fortifying Crystal|size=32px|text=1}} x1 || 50 || {{Guardian's Sword-}} x3 || Start
+|-
+| {{Icon|Material|Amplifying Crystal|size=32px|text=1}} x1 || 50 || {{Guardian's Sword-}} x3 || Start
+|-
+| {{Icon|Material|Fortifying Gemstone|size=32px|text=1}} x1 || 50 || {{Guardian's Sword-}} x3 || Start
+|-
+| {{Icon|Material|Amplifying Gemstone|size=32px|text=1}} x1 || 50 || {{Guardian's Sword-}} x3 || Start
+|-
+| {{Icon|Material|Champion's Testament|size=32px|text=1}} x1 || 1 || {{Guardian's Shield-}} x50, {{Guardian's Sword-}} x20 || Start
+|-
+| {{Icon|Material|Champion's Testament|size=32px|text=1}} x1 || 1 || {{Guardian's Shield-}} x100, {{Guardian's Sword-}} x40 || Start
+|-
+| {{Icon|Material|Knight's Testament|size=32px|text=1}} x1 || 1 || {{Guardian's Sword-}} x15 || Start
+|-
+| {{Icon|Material|Knight's Testament|size=32px|text=1}} x1 || 1 || {{Guardian's Sword-}} x30 || Start
+|-
+| {{Icon|Material|Golden Fragment|size=32px|text=1}} x1 || 4 || {{Guardian's Sword-}} x50 || Start
+|-
+| {{Icon|Material|Silver Key|size=32px|text=1}} x1 || 1 || {{Guardian's Sword-}} x10 || Start
+|-
+| {{Icon|Material|Sunlight Ore|size=32px|text=1}} x1 || 1 || {{Guardian's Shield-}} x50, {{Guardian's Sword-}} x20 || Start
+|-
+| {{Icon|Material|Sunlight Ore|size=32px|text=1}} x1 || 1 || {{Guardian's Shield-}} x100, {{Guardian's Sword-}} x40 || Start
+|-
+| {{Icon|Material|Sunlight Ore|size=32px|text=1}} x1 || 1 || {{Guardian's Shield-}} x100, {{Guardian's Sword-}} x40 || From Dec 2, 2021
+|-
+| {{Icon|Material|Steel Brick|size=32px|text=1}} x1 || 1 || {{Guardian's Sword-}} x30 || Start
+|-
+| {{Icon|Material|Royal Vermilion Insignia|size=32px|text=1}} x1 || 1,000 || {{Guardian's Shield-}} x3, {{Guardian's Sword-}} x1 || Start
+|-
+| {{Icon|Material|Vermilion Insignia|size=32px|text=1}} x1 || 1,000 || {{Guardian's Shield-}} x3 || Start
+|-
+| {{Icon|Material|Crimson Core|size=32px|text=1}} x1 || 50 || {{Guardian's Shield-}} x5 || Start
+|-
+| {{Icon|Material|Talonstone|size=32px|text=1}} x1|| 50 || {{Guardian's Shield-}} x5 || Start
+|-
+| {{Icon|Material|Gold Crystal|size=32px|text=1}} x1 || 100 || {{Guardian's Shield-}} x3 || Start
+|-
+| {{Icon|Material|Gold Crystal|size=32px|text=1}} x1 || 100 || {{Guardian's Shield-}} x5 || From Dec 2, 2021
+|-
+| {{Icon|Material|Consecrated Water|size=32px|text=1}} x1 || 100 || {{Guardian's Shield-}} x3 || Start
+|-
+| {{Icon|Material|Succulent Dragonfruit|size=32px|text=1}} x1 || 100 || {{Guardian's Shield-}} x3 || Start
+|-
+| {{Icon|Material|Incandescence Orb|size=32px|text=1}} x1 || 10 || {{Guardian's Shield-}} x30 || From Dec 2, 2021
+|-
+| {{Icon|Material|Inferno Orb|size=32px|text=1}} x1 || 50 || {{Guardian's Shield-}} x5 || Start
+|-
+| {{Icon|Material|Blaze Orb|size=32px|text=1}} x1 || 30 || {{Guardian's Shield-}} x3 || Start
+|-
+| {{Icon|Material|Flame Orb|size=32px|text=1}} x3 || 100 || {{Guardian's Shield-}} x2 || Start
+|-
+| {{Icon|Material|Rainbow Orb|size=32px|text=1}} x1 || 20 || {{Guardian's Shield-}} x10 || Start
+|-
+| {{Icon|Material|Flamewyrm's Scaldscale|size=32px|text=1}} x1 || 50 || {{Guardian's Shield-}} x6 || Start
+|-
+| {{Icon|Material|Flamewyrm's Scale|size=32px|text=1}} x1 || 100 || {{Guardian's Shield-}} x3 || Start
+|-
+| {{Icon|Gift|Four-Leaf Clover|size=32px|text=1}} x1 || 10 || {{Guardian's Shield-}} x30 || Start
+|-
+| {{Icon|Material|Fafnir Medal|size=32px|text=1}} x1 || 10 || {{Guardian's Shield-}} x30 || Start
+|-
+| {{Icon|Resource|Eldwater|size=32px|text=1}} x500 || 10 || {{Guardian's Sword-}} x5 || From Dec 2, 2021
+|-
+| {{Icon|Resource|Mana|size=32px|text=1}} x1,000 || 50 || {{Guardian's Shield-}} x3 || Start
+|-
+| {{Icon|Resource|Mana|size=32px|text=1}} x1,000 || 50 || {{Guardian's Shield-}} x5 || From Dec 2, 2021
+|-
+| {{Icon|Resource|Rupies|size=32px|text=1}} x5,000 || 50 || {{Guardian's Shield-}} x3 || Start
+|-
+| {{Icon|Material|Guardian's Sword|size=32px|text=1}} x1 || <big>∞</big> || {{Guardian's Shield-}} x3 || Start
+|-
+| {{Icon|Material|Guardian's Shield|size=32px|text=1}} x2 || <big>∞</big> || {{Guardian's Sword-}} x1 || Start
+|-
+| {{Icon|Resource|Rupies|size=32px|text=1}} x10|| <big>∞</big> || {{Guardian's Sword-}} x1 || Start
+}}
+</div>
+</div>
+
+|EventMaterialCollection=Heroism
+|CollectionRewards=
+<div style="width: 100%;">
+[[File:One Starry Dragonyule Banner 02.png]]
+<div style="max-height:500px;overflow:auto;width:100%">
+{{Wikitable|class="wikitable darkpurple sortable right" style="width:100%"
+|-
+! Item !! Qty !! Heroism Req.
+|-
+| style{{=}}"text-align:left" | {{Mana-}} || 3,000 || 10
+|-
+| style{{=}}"text-align:left" | {{Silver Crystal-}} || 30 || 20
+|-
+| style{{=}}"text-align:left" | {{Guardian's Shield-}} || 20 || 30
+|-
+| style{{=}}"text-align:left" | {{Rupies-}} || 50,000 || 50
+|-
+| style{{=}}"text-align:left" | {{Blessed Water-}} || 20 || 70
+|-
+| style{{=}}"text-align:left" | {{Summon Voucher-}} || 1 || 100
+|-
+| style{{=}}"text-align:left" | {{Honey-}} || 10 || 150
+|-
+| style{{=}}"text-align:left" | {{Dyrenell Argenteus-}} || 500 || 200
+|-
+| style{{=}}"text-align:left" | {{Looking Glass-}} || 1 || 300
+|-
+| style{{=}}"text-align:left" | {{Guardian's Shield-}} || 30 || 500
+|-
+| style{{=}}"text-align:left" | {{Eldwater-}} || 300 || 700
+|-
+| style{{=}}"text-align:left" | {{Rupies-}} || 100,000 || 1,000
+|-
+| style{{=}}"text-align:left" | {{Blessed Water-}} || 40 || 1,200
+|-
+| style{{=}}"text-align:left" | {{Summon Voucher-}} || 1 || 1,500
+|-
+| style{{=}}"text-align:left" | {{Mana-}} || 3,500 || 1,700
+|-
+| style{{=}}"text-align:left" | {{Eldwater-}} || 300 || 2,000
+|-
+| style{{=}}"text-align:left" | {{Gold Crystal-}} || 50 || 2,200
+|-
+| style{{=}}"text-align:left" | {{Guardian's Shield-}} || 50 || 2,500
+|-
+| style{{=}}"text-align:left" | {{Looking Glass-}} || 1 || 3,000
+|-
+| style{{=}}"text-align:left" | {{Silver Key-}} || 1 || 3,500
+|-
+| style{{=}}"text-align:left" | {{Eldwater-}} || 300 || 4,000
+|-
+| style{{=}}"text-align:left" | {{Consecrated Water-}} || 20 || 5,000
+|-
+| style{{=}}"text-align:left" | {{Gold Crystal-}} || 40 || 6,000
+|-
+| style{{=}}"text-align:left" | {{Eldwater-}} || 300 || 8,000
+|-
+| style{{=}}"text-align:left" | {{Guardian's Sword-}} || 10 || 10,000
+|-
+| style{{=}}"text-align:left" | {{Rupies-}} || 200,000 || 12,000
+|-
+| style{{=}}"text-align:left" | {{Summon Voucher-}} || 1 || 15,000
+|-
+| style{{=}}"text-align:left" | {{Golden Fragment-}} || 1 || 17,000
+|-
+| style{{=}}"text-align:left" | {{Eldwater-}} || 400 || 20,000
+|-
+| style{{=}}"text-align:left" | {{Mana-}} || 3,000 || 22,000
+|-
+| style{{=}}"text-align:left" | {{Consecrated Water-}} || 20 || 25,000
+|-
+| style{{=}}"text-align:left" | {{Guardian's Shield-}} || 100 || 30,000
+|-
+| style{{=}}"text-align:left" | {{Eldwater-}} || 300 || 35,000
+|-
+| style{{=}}"text-align:left" | {{Dyrenell Aureus-}} || 500 || 40,000
+|-
+| style{{=}}"text-align:left" | {{Eldwater-}} || 400 || 45,000
+|-
+| style{{=}}"text-align:left" | {{Rupies-}} || 300,000 || 50,000
+|-
+| style{{=}}"text-align:left" | {{Knight's Testament-}} || 1 || 55,000
+|-
+| style{{=}}"text-align:left" | {{Eldwater-}} || 400 || 60,000
+|-
+| style{{=}}"text-align:left" | {{Guardian's Shield-}} || 150 || 65,000
+|-
+| style{{=}}"text-align:left" | {{Icon|Wyrmprint|A Gift from an Angel|size=24px|text=1}} || 1 || 70,000
+|-
+| style{{=}}"text-align:left" | {{Summon Voucher-}} || 1 || 75,000
+|-
+| style{{=}}"text-align:left" | {{Eldwater-}} || 400 || 80,000
+|-
+| style{{=}}"text-align:left" | {{Mana-}} || 4,000 || 85,000
+|-
+| style{{=}}"text-align:left" | {{Gold Crystal-}} || 100 || 90,000
+|-
+| style{{=}}"text-align:left" | {{Rupies-}} || 400,000 || 95,000
+|-
+| style{{=}}"text-align:left" | {{Golden Fragment-}} || 1 || 100,000
+|-
+| style{{=}}"text-align:left" | {{Eldwater-}} || 500 || 110,000
+|-
+| style{{=}}"text-align:left" | {{Guardian's Shield-}} || 200 || 120,000
+|-
+| style{{=}}"text-align:left" | {{Eldwater-}} || 300 || 130,000
+|-
+| style{{=}}"text-align:left" | {{Icon|WeaponSkin|30150219|size=24px|text=1}} || 1 || 140,000
+|-
+| style{{=}}"text-align:left" | {{Consecrated Water-}} || 20 || 150,000
+|-
+| style{{=}}"text-align:left" | {{Summon Voucher-}} || 2 || 160,000
+|-
+| style{{=}}"text-align:left" | {{Eldwater-}} || 600 || 170,000
+|-
+| style{{=}}"text-align:left" | {{Guardian's Shield-}} || 250 || 180,000
+|-
+| style{{=}}"text-align:left" | {{Gold Crystal-}} || 100 || 190,000
+|-
+| style{{=}}"text-align:left" | {{Champion's Testament-}} || 1 || 200,000
+|-
+| style{{=}}"text-align:left" | {{Rupies-}} || 500,000 || 210,000
+|-
+| style{{=}}"text-align:left" | {{Dyrenell Argenteus-}} || 1,500 || 220,000
+|-
+| style{{=}}"text-align:left" | {{Eldwater-}} || 700 || 230,000
+|-
+| style{{=}}"text-align:left" | {{Guardian's Sword-}} || 20 || 240,000
+|-
+| style{{=}}"text-align:left" | {{Eldwater-}} || 300 || 250,000
+|-
+| style{{=}}"text-align:left" | {{Consecrated Water-}} || 20 || 260,000
+|-
+| style{{=}}"text-align:left" | {{Mana-}} || 4,500 || 270,000
+|-
+| style{{=}}"text-align:left" | {{Rupies-}} || 600,000 || 280,000
+|-
+| style{{=}}"text-align:left" | {{Guardian's Sword-}} || 30 || 290,000
+|-
+| style{{=}}"text-align:left" | {{Golden Fragment-}} || 1 || 300,000
+|-
+| style{{=}}"text-align:left" | {{Icon|WeaponSkin|30150119|size=24px|text=1}} || 1 || 310,000
+|-
+| style{{=}}"text-align:left" | {{Consecrated Water-}} || 40 || 320,000
+|-
+| style{{=}}"text-align:left" | {{Eldwater-}} || 800 || 330,000
+|-
+| style{{=}}"text-align:left" | {{Gold Crystal-}} || 100 || 340,000
+|-
+| style{{=}}"text-align:left" | {{Golden Fragment-}} || 1 || 350,000
+|-
+| style{{=}}"text-align:left" | {{Guardian's Sword-}} || 40 || 370,000
+|-
+| style{{=}}"text-align:left" | {{Rupies-}} || 700,000 || 390,000
+|-
+| style{{=}}"text-align:left" | {{Mana-}} || 5,000 || 410,000
+|-
+| style{{=}}"text-align:left" | {{Consecrated Water-}} || 40 || 430,000
+|-
+| style{{=}}"text-align:left" | {{Silver Key-}} || 1 || 450,000
+|-
+| style{{=}}"text-align:left" | {{Eldwater-}} || 900 || 470,000
+|-
+| style{{=}}"text-align:left" | {{Dyrenell Aureus-}} || 1,000 || 490,000
+|-
+| style{{=}}"text-align:left" | {{Dyrenell Argenteus-}} || 2,000 || 510,000
+|-
+| style{{=}}"text-align:left" | {{Rupies-}} || 800,000 || 530,000
+|-
+| style{{=}}"text-align:left" | {{Golden Fragment-}} || 1 || 550,000
+|-
+| style{{=}}"text-align:left" | {{Eldwater-}} || 1,000 || 570,000
+|-
+| style{{=}}"text-align:left" | {{Gold Crystal-}} || 150 || 590,000
+|-
+| style{{=}}"text-align:left" | {{Rupies-}} || 900,000 || 610,000
+|-
+| style{{=}}"text-align:left" | {{Icon|Wyrmprint|A Dragonyule for Ilia|size=24px|text=1}} || 1 || 630,000
+|-
+| style{{=}}"text-align:left" | {{Dyrenell Aureus-}} || 1,500 || 650,000
+|-
+| style{{=}}"text-align:left" | {{Consecrated Water-}} || 40 || 670,000
+|-
+| style{{=}}"text-align:left" | {{Twinkling Sand-}} || 3 || 700,000
+|-
+| style{{=}}"text-align:left" | {{Eldwater-}} || 1,000 || 730,000
+|-
+| style{{=}}"text-align:left" | {{Champion's Testament-}} || 2 || 760,000
+|-
+| style{{=}}"text-align:left" | {{Rupies-}} || 1,000,000 || 790,000
+|-
+| style{{=}}"text-align:left" | {{Golden Fragment-}} || 1 || 820,000
+|-
+| style{{=}}"text-align:left" | {{Summon Voucher-}} || 5 || 850,000
+|-
+| style{{=}}"text-align:left" | {{Consecrated Water-}} || 100 || 880,000
+|-
+| style{{=}}"text-align:left" | {{Eldwater-}} || 2,000 || 910,000
+|-
+| style{{=}}"text-align:left" | {{Gold Crystal-}} || 300 || 940,000
+|-
+| style{{=}}"text-align:left" | {{Rupies-}} || 2,000,000 || 970,000
+|-
+| style{{=}}"text-align:left" | {{Golden Key-}} || 1 || 1,000,000
+}}
+</div>
+</div>
+}}
