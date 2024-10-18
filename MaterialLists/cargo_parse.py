@@ -6,6 +6,8 @@ import os.path
 import json
 from typing import Any, Optional
 from dataclasses import dataclass
+from classes import Entity, ParsedQuest
+from quest_alt_ids import QUEST_ALT_IDS
 import materials
 import crests
 import lookups
@@ -13,81 +15,6 @@ import custom_tables
 
 
 WORKING_DIR = os.path.dirname(os.path.realpath(__file__))
-
-
-@dataclass
-class Entity:
-    """
-    Class for entities to be dropped.
-    """
-    _Id: int
-    _EntityType: str
-    _Comment: str
-    _Quantity: Optional[float]
-
-    def __hash__(self) -> int:
-        return hash(f"{self._Id}{self._EntityType}")
-
-    def __init__(self, drop: Any):
-        self.__initialize_idtype(drop)
-        self.__initialize_quantity(drop)
-
-    def __initialize_idtype(self, drop: dict):
-        drop_type = drop["ItemType"]
-        drop_value = drop["Item"]
-
-        if drop_type == "Material" or drop_type == "Wyrmprint":
-            self._Id = drop_value
-            self._EntityType = drop_type
-        elif drop_type == "Resource":
-            self._Id = 0
-            if drop_value == "Eldwater":
-                self._EntityType = "Dew"
-            else:
-                self._EntityType = drop_value
-        elif drop_type == "Gift":
-            self._Id = lookups.GIFT_LOOKUP[drop_value]
-            self._EntityType = "DragonGift"
-        elif drop_type == "Consumable":
-            match drop_value:
-                case "Summon Voucher":
-                    self._Id = 10101  # Single summon voucher
-                    self._EntityType = "SummonTicket"
-                case "Exquisite Honey":
-                    self._Id = 100603
-                    self._EntityType = "Item"
-                case "Blessed Ethon Ashes":
-                    self._Id = 100702
-                    self._EntityType = "Item"
-            self._Comment = drop_value
-        else:
-            raise ValueError(f"Unhandled drop type: {drop_type}")
-
-    def __initialize_quantity(self, drop: dict):
-        drop_type = drop["ItemType"]
-
-        if drop.get("ExactDrop", None):
-            self._Quantity = int(drop["ExactDrop"])
-
-        self._Comment = drop.get("Comment", None)
-
-        if drop_type == "Wyrmprint":
-            self._Quantity = 0.1
-
-        if drop_type == "Material":
-            self._Quantity = 50
-
-        if (self._Comment and "Boon" in self._Comment):
-            self._Quantity = 5
-
-        if drop_type == "Gift":
-            self._Quantity = 1
-
-        if drop_type == "Consumable":
-            self._Quantity = 5
-
-        if self._Quantity is None:
-            raise ValueError("Missing quantity")
 
 
 def process_drop(drop):
@@ -127,19 +54,19 @@ def process_drop(drop):
         raise ValueError("Failed to process row", drop) from exc
 
 
-def initialize_quest(result: dict[int, dict[str, Any]], quest_id: int):
+def initialize_quest(result: dict[int, ParsedQuest], quest_id: int):
     if quest_id not in result:
-        result[quest_id] = {
-            "_QuestId": quest_id,
-            "_Rupies": 250_000,
-            "_Mana": 10_000,
-            "_Drops": set(),
-        }
+        result[quest_id] = ParsedQuest(
+            _QuestId=quest_id,
+            _Rupies=250_000,
+            _Mana=10_000,
+            _Drops=set(),
+        )
 
 
 def add_to_result(result: dict, drop, quest_id):
     entity = Entity(drop)
-    result[quest_id]["_Drops"].add(entity)
+    result[quest_id]._Drops.add(entity)
 
 
 def cargo_parse(query_row):
@@ -147,7 +74,7 @@ def cargo_parse(query_row):
     For a row in the drops table, substitute its name values with material/wyrmprint ids.
     Does not currently substitute some misc resource drops with ID values.
     """
-    result = {}
+    result: dict[int, ParsedQuest] = {}
 
     for drop in query_row:
         quest_id = int(drop["QuestId"])
@@ -159,10 +86,11 @@ def cargo_parse(query_row):
 
         add_to_result(result, drop, quest_id)
 
-        if (quest_id in lookups.QUEST_ALT_IDS):
+        if (quest_id in QUEST_ALT_IDS):
             print("Copying drops to alias", quest_id)
 
-            alt_id = lookups.QUEST_ALT_IDS[quest_id]
+            alt_id = QUEST_ALT_IDS[quest_id]
+
             initialize_quest(result, alt_id)
             add_to_result(result, drop, alt_id)
 
@@ -178,11 +106,11 @@ def cargo_parse(query_row):
             "Comment": m
         }) for m in mats]
 
-        result[quest_id]["_Drops"].update(entities)
+        result[quest_id]._Drops.update(entities)
 
     for _, quest in result.items():
-        quest["_Drops"] = sorted(
-            quest["_Drops"], key=lambda e: (e._EntityType, e._Id))
+        quest._Drops = sorted(
+            quest._Drops, key=lambda e: (e._EntityType, e._Id))
 
     return result
 
@@ -197,6 +125,9 @@ def set_default(obj):
     if isinstance(obj, Entity):
         return obj.__dict__
 
+    if isinstance(obj, ParsedQuest):
+        return obj.__dict__
+
 
 if __name__ == "__main__":
     query = []
@@ -208,7 +139,7 @@ if __name__ == "__main__":
     custom_tables.apply_custom_tables(processed)
 
     result_list = sorted(processed.values(),
-                         key=lambda quest: quest["_QuestId"])
+                         key=lambda quest: quest._QuestId)
 
     with open(os.path.join(WORKING_DIR, "cargo_query_proc.json"), "w", encoding="utf-8") as f:
         json.dump(result_list, f, default=set_default, indent=4)

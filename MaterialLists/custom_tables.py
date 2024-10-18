@@ -1,5 +1,7 @@
 from typing import Optional
 
+from classes import ParsedQuest
+
 
 class CustomTable:
     """
@@ -29,9 +31,9 @@ custom_tables = [
 ]
 
 
-def apply_custom_tables(cargo_parsed: dict[int, dict]):
+def apply_custom_tables(cargo_parsed: dict[int, ParsedQuest]):
     for t in custom_tables:
         entry = cargo_parsed.get(t.quest_id, None)
         if entry is not None:
             if t.rupies is not None:
-                entry["_Rupies"] = t.rupies
+                entry._Rupies = t.rupies
