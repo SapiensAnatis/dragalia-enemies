@@ -4,15 +4,13 @@ Parses the data produced by cargo_query.py into more usable JSON.
 
 import os.path
 import json
-from typing import Any, Optional
-from dataclasses import dataclass
 from classes import Entity, ParsedQuest
 from quest_alt_ids import QUEST_ALT_IDS
 import materials
 import crests
 import lookups
 import custom_tables
-
+import quest_name
 
 WORKING_DIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -61,6 +59,7 @@ def initialize_quest(result: dict[int, ParsedQuest], quest_id: int):
             _Rupies=250_000,
             _Mana=10_000,
             _Drops=set(),
+            _Comment=None
         )
 
 
@@ -136,10 +135,16 @@ if __name__ == "__main__":
 
     processed = cargo_parse(query)
 
+    quest_name.set_quest_names(processed)
     custom_tables.apply_custom_tables(processed)
 
     result_list = sorted(processed.values(),
                          key=lambda quest: quest._QuestId)
 
     with open(os.path.join(WORKING_DIR, "cargo_query_proc.json"), "w", encoding="utf-8") as f:
-        json.dump(result_list, f, default=set_default, indent=4)
+        json.dump(result_list, f, default=set_default, indent=2)
+
+    dawnshard_path = r"C:\Users\jay0\Projects\Dawnshard\DragaliaAPI\DragaliaAPI.Shared\Resources\QuestDrops\QuestDropInfo.json"
+    if (os.path.exists(dawnshard_path)):
+        with open(dawnshard_path, "w", encoding="utf-8") as f:
+            json.dump(result_list, f, default=set_default, indent=2)

@@ -84,6 +84,7 @@ class ParsedQuest:
     Class for an entry in the resulting JSON file.
     """
     _QuestId: int
+    _Comment: Optional[str]
     _Rupies: int
     _Mana: int
     _Drops: Any
