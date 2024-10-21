@@ -1,23 +1,6 @@
-from typing import Optional
-from materials import Material
-from classes import ParsedQuest
 from dataclasses import dataclass
-
-
-class CustomTable:
-    """
-    Defines a custom drop table for a quest.
-    """
-    quest_id: int
-    rupies: Optional[int]
-    mana: Optional[int]
-    drops: Optional[dict[Material, float]]
-
-    def __init__(self, quest_id: int, rupies: Optional[int] = None, mana: Optional[int] = None, drops: Optional[dict[Material, float]] = None):
-        self.quest_id = quest_id
-        self.rupies = rupies
-        self.mana = mana
-        self.drops = drops
+from materials import Material
+from table_types import CustomTable
 
 
 @dataclass
@@ -90,7 +73,7 @@ def create_master_io_table(quest_id: int, args: ImperialOnslaughtArgs):
     })
 
 
-def create_custom_tables() -> list[CustomTable]:
+def create_io_tables() -> list[CustomTable]:
     flame_io_args = ImperialOnslaughtArgs(
         t1_upgrade=Material.IRON_ORE,
         t2_upgrade=Material.GRANITE,
@@ -151,14 +134,6 @@ def create_custom_tables() -> list[CustomTable]:
     )
 
     return [
-        # ATF beginner
-        CustomTable(quest_id=202060101, rupies=300000),
-        # ATF standard
-        CustomTable(quest_id=202060102, rupies=500000),
-        # ATF expert
-        CustomTable(quest_id=202060103, rupies=750000),
-        # ATF master
-        CustomTable(quest_id=202060104, rupies=1000000),
         # Battle at Mount Adolla: Beginner
         create_beginner_io_table(quest_id=211010101, args=flame_io_args),
         # Battle at Mount Adolla: Standard
@@ -200,21 +175,3 @@ def create_custom_tables() -> list[CustomTable]:
         # Battle at the Wartarch Ruins: Master
         create_master_io_table(quest_id=211050104, args=shadow_io_args),
     ]
-
-
-def apply_custom_tables(cargo_parsed: dict[int, ParsedQuest]):
-    for table in create_custom_tables():
-        entry = cargo_parsed[table.quest_id]
-
-        if table.rupies is not None:
-            entry._Rupies = table.rupies
-
-        if table.mana is not None:
-            entry._Mana = table.mana
-
-        if table.drops is not None:
-            for drop in entry._Drops:
-                if drop._EntityType != "Material":
-                    continue
-
-                drop._Quantity = table.drops[Material(drop._Id)]

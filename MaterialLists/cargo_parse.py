@@ -9,7 +9,7 @@ from quest_alt_ids import QUEST_ALT_IDS
 import materials
 import crests
 import lookups
-import custom_tables
+import MaterialLists.custom_tables.custom_tables as custom_tables
 import quest_name
 
 WORKING_DIR = os.path.dirname(os.path.realpath(__file__))
