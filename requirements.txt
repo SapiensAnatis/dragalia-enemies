@@ -1,0 +1,8 @@
+archspec==0.2.5
+brotli==1.2.0
+etcpak==0.9.15
+lz4==4.4.5
+pillow==12.1.1
+tabulate==0.10.0
+texture2ddecoder==1.0.6
+UnityPy==1.8.20

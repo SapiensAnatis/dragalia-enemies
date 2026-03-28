@@ -7,7 +7,7 @@ import json
 from get_enemies import get_enemies_from_file
 
 WORKING_DIR = os.path.dirname(os.path.realpath(__file__))
-ASSET_DIR = r"D:\DragaliaLost Assets\EU_locale"
+ASSET_DIR = r"/home/jay/mnt/WinD/DragaliaLost Assets/EU_locale"
 
 
 def get_assetpath(hash: str) -> str:
@@ -41,12 +41,14 @@ def get_quest_assets(json_path: str) -> list:
 if __name__ == "__main__":
     hashes = []
     assets = get_quest_assets(os.path.join(
-        WORKING_DIR, "DragaliaManifests/Android/20221002_y2XM6giU6zz56wCm/assetbundle.manifest.json"))
-
-    assets += get_quest_assets(os.path.join(
-        WORKING_DIR, "DragaliaManifests/Android/20211129_h6lObp9eiVabAdyO/assetbundle.manifest.json"))
+        WORKING_DIR, "DragaliaManifests/Android/20210131_lqfRBhj2APlqf8RC/assetbundle.manifest.json"))
 
     result = {}
+    with open ("/home/jay/Projects/Dawnshard/DragaliaAPI/DragaliaAPI.Shared/Resources/Enemy/QuestEnemies.json", "r", encoding="utf-8") as f_existing:
+        existing_list = json.loads(f_existing.read())
+        for entry in existing_list:
+            result[entry["_AreaName"]] = entry
+
     complete_hashes = set()
 
     for i, a in enumerate(assets):
