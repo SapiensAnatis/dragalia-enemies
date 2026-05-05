@@ -22,17 +22,19 @@ class TTrade():
     target: TTItem
     limit: int
     needed: List[TTItem]
+    tab_group_id: bool
 
-    def __init__(self, target: TTItem, limit: str, needed: List[TTItem]) -> None:
+    def __init__(self, target: TTItem, limit: str, needed: List[TTItem], special: bool) -> None:
         self.target = target
         self.limit = 0 if '∞' in limit else int(limit.replace(",", ""))
         self.needed = needed
+        self.tab_group_id = 2 if special else 1
         pass
 
     def to_json(self, id: int, eventId: int):
         global current_trade_id_list
 
-        base_id = id * 10000
+        base_id = eventId * 10000
 
         if id not in current_trade_id_list:
             current_trade_id_list[id] = 1
@@ -44,7 +46,7 @@ class TTrade():
             "_Id": base_id,
             "_TradeGroupId": id,
             "_Limit": self.limit,
-            "_TabGroupId": 1,
+            "_TabGroupId": self.tab_group_id,
             "_Priority": base_id,
             "_ResetType": 0,
             "_CommenceData": "",
@@ -128,14 +130,23 @@ class TTradeEvent():
             print(f"\t{str(trade)}")
 
 
+def fix_name(name: str) -> str:
+    if name == "Papier-mâché":
+        return "Papier-Mâché"
+
+    if name == "Jack Chocolates":
+        return "Jack Chocolate"
+
+    if name in ["Silver Dagger", "Bandit Sword", "Replica Machine Gun"]:
+        return name + " (Skin)"
+
+    return name
+
+
 def get_type_from_string(name: str) -> int:
     global text_strings
 
-    if name == "Papier-mâché":
-        name = "Papier-Mâché"
-
-    if name == "Jack Chocolates":
-        name = "Jack Chocolate"
+    name = fix_name(name)
 
     if name == "Mana":
         return 18
@@ -163,6 +174,8 @@ def get_type_from_string(name: str) -> int:
         return 34
     elif label.startswith("EV_EARN"):
         return 40
+    elif label.startswith("EV_RAID"):
+        return 20
     elif label.startswith("USE_ITEM"):
         return 2
     elif label.startswith("DRAGON_GIFT"):
@@ -173,9 +186,10 @@ def get_type_from_string(name: str) -> int:
         return 11
     elif label.startswith("AMULET_NAME"):
         return 39
+    elif label.startswith("WEAPON_SKIN"):
+        return 37
 
-    print(label)
-    raise RuntimeError("invalid label")
+    raise RuntimeError("invalid label: " + label)
 
 
 event_item_type_file_map = {
@@ -197,7 +211,7 @@ event_item_cache = {
 
 def get_actual_id_for_event_item(id, type, event):
     if type not in event_item_cache.keys():
-        with open(f"json/{event_item_type_file_map[type]}EventItemDY.json", "r") as f:
+        with open(f"json/{event_item_type_file_map[type]}EventItem.json", "r") as f:
             data = json.loads(f.read())
             event_item_cache[type] = {}
             for entry in data:
@@ -214,11 +228,7 @@ def get_actual_id_for_event_item(id, type, event):
 def get_id_from_string(name: str, eventId: int = 0) -> int:
     global text_strings
 
-    if name == "Papier-mâché":
-        name = "Papier-Mâché"
-
-    if name == "Jack Chocolates":
-        name = "Jack Chocolate"
+    name = fix_name(name)
 
     if name in ["Mana", "Rupies", "Eldwater"]:
         return 0
@@ -348,15 +358,19 @@ def main():
 def parse_treasure_trade_table(table: str):
     trades = []
 
+    special = False
+
     for line in table.splitlines():
         if line.startswith("|") and "||" in line:
             # print(line)
-            trades.append(parse_treasure_trade_line(line))
+            trades.append(parse_treasure_trade_line(line, special))
+        elif line == "|-| Special=":
+            special = True
 
     return trades
 
 
-def parse_treasure_trade_line(line: str) -> TTrade:
+def parse_treasure_trade_line(line: str, special: bool) -> TTrade:
     parts = line.split("||")
     # print(parts)
 
@@ -368,7 +382,7 @@ def parse_treasure_trade_line(line: str) -> TTrade:
 
     # print(f"Trade: {[f'{x.quantity}x {x.name}' for x in needed_items]} -> {target_item.quantity}x {target_item.name} (limit {limit})")
 
-    return TTrade(target_item, limit, needed_items)
+    return TTrade(target_item, limit, needed_items, special)
 
 
 def parse_treasure_trade_item(item: str):
